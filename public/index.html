@@ -39,8 +39,6 @@ html, body {
   background: #f9f9f9;
 }
 
-/* Navigation list */
-
 .sidebar ul {
   list-style: none;
   padding: 0;
@@ -50,16 +48,12 @@ html, body {
   margin: 18px 0;
 }
 
-/* Links */
-
 .sidebar a {
   text-decoration: none;
   font-size: 1.25em;
   font-weight: 600;
   color: #333;
 }
-
-/* Home slightly larger */
 
 .sidebar a.home {
   font-size: 1.4em;
@@ -74,44 +68,100 @@ html, body {
 
 .chat-area {
   width: 80%;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  box-sizing: border-box;
-  overflow-wrap: break-word;
-  word-break: break-word;
-  white-space: normal;
-  max-width: 100%;
+  min-width: 0;
+  height: 100vh;
+  overflow: hidden;
 }
 
-.chat-area #root {
-  flex-grow: 1;
+/* Scroll container */
+
+#root {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Chat layout */
+
+.chat {
+  min-height: 100%;
   display: flex;
   flex-direction: column;
+}
+
+/* Messages area */
+
+.chat-messages {
+  flex: 1 0 auto;
+  min-height: 0;
+  padding-bottom: 140px; /* space for message bar */
+}
+
+/* Word wrapping */
+
+.chat *,
+#root * {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* Original message form pinned to bottom */
+
+.chat form.row {
+  position: sticky;
+  bottom: 0;
+  background: white;
+  padding-top: 12px;
+  padding-bottom: 35px; /* extra whitespace below textbox */
+  border-top: 1px solid #ddd;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Input styling */
+
+.chat input[type="text"] {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+.chat button[type="submit"] {
+  white-space: nowrap;
+  margin-bottom: 0;
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="main-layout">
 
-  <!-- Sidebar -->
   <div class="sidebar">
     <ul>
-      <li><a class="home" href="index.html">Home</a></li>
-      <li><a href="rooms.html">Rooms</a></li>
-      <li><a href="profile.html">Profile</a></li>
-      <li><a href="about.html">About</a></li>
+      <li><a class="home" href="/home">Home</a></li>
+      <li><a href="bored">Bored on Campus</a></li>
+      <li><a href="events">Events</a></li>
+      <li><a href="complain">Complaining</a></li>
     </ul>
   </div>
 
-  <!-- Chat UI -->
   <div class="chat-area">
+
     <div id="root">
+
       <div class="chat container">
+
+        <div class="chat-messages" id="messages">
+          <!-- Messages appear here -->
+        </div>
+
         <form class="row">
           <input
             type="text"
@@ -120,15 +170,52 @@ html, body {
             placeholder="Hello! Type a message..."
             autocomplete="off"
           >
+
           <button type="submit" class="send-message two columns">
             Send
           </button>
         </form>
+
       </div>
+
     </div>
+
   </div>
 
 </div>
+
+<script>
+
+const root = document.getElementById("root");
+
+/* scroll to newest message */
+
+function scrollToBottom(){
+  root.scrollTop = root.scrollHeight;
+}
+
+/* load page at newest messages */
+
+window.addEventListener("load", () => {
+  scrollToBottom();
+  setTimeout(scrollToBottom, 200);
+});
+
+/* scroll after sending message */
+
+document.addEventListener("submit", function(event){
+
+  const form = event.target;
+
+  if (!(form instanceof HTMLFormElement)) return;
+  if (!root.contains(form)) return;
+
+  setTimeout(scrollToBottom, 50);
+  setTimeout(scrollToBottom, 200);
+
+});
+
+</script>
 
 </body>
 </html>
