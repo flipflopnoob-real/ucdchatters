@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-
 <title>Chat!</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -19,14 +18,12 @@ html, body {
   margin: 0;
 }
 
-/* Layout */
 .main-layout {
   display: flex;
   height: 100vh;
   width: 100%;
 }
 
-/* Sidebar */
 .sidebar {
   width: 20%;
   min-width: 180px;
@@ -36,7 +33,6 @@ html, body {
   background: #f9f9f9;
 }
 
-/* Navigation list */
 .sidebar ul {
   list-style: none;
   padding: 0;
@@ -46,7 +42,6 @@ html, body {
   margin: 18px 0;
 }
 
-/* Links */
 .sidebar a {
   text-decoration: none;
   font-size: 1.25em;
@@ -54,7 +49,6 @@ html, body {
   color: #333;
 }
 
-/* Home slightly larger */
 .sidebar a.home {
   font-size: 1.4em;
   font-weight: 700;
@@ -64,78 +58,65 @@ html, body {
   text-decoration: underline;
 }
 
-/* Chat area */
 .chat-area {
   width: 80%;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  padding: 20px;
   box-sizing: border-box;
-  overflow: hidden;
+  height: 100vh;
 }
 
-/* SINGLE scroll container */
-.chat-area #root {
+#root {
   flex: 1;
-  min-height: 0;
-  min-width: 0;
   overflow-y: auto;
   overflow-x: hidden;
+  padding: 20px;
 }
 
-/* chat layout */
 .chat {
   display: flex;
   flex-direction: column;
   min-height: 100%;
-  min-width: 0;
 }
 
-/* Make all chat content wrap properly */
-.chat *,
-.chat-area *,
-#root * {
-  box-sizing: border-box;
+/* message wrapping */
+.chat *, #root * {
   min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
 }
 
-/* keep input at bottom */
-.chat form {
-  margin-top: auto;
+/* INPUT BAR FIXED TO BOTTOM */
+.chat-input-bar {
+  border-top: 1px solid #ddd;
+  padding: 12px 20px;
+  background: white;
+}
+
+.chat-input-bar form {
+  display: flex;
+  gap: 12px;
   width: 100%;
 }
 
-.chat form.row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: nowrap;
-}
-
-.chat input[type="text"] {
-  flex: 1 1 auto;
+.chat-input-bar input[type="text"] {
+  flex: 1;
   min-width: 0;
-  width: auto;
   margin-bottom: 0;
 }
 
-.chat button[type="submit"] {
-  flex: 0 0 auto;
-  margin-bottom: 0;
+.chat-input-bar button {
   white-space: nowrap;
 }
-</style>
 
+</style>
 </head>
 
 <body>
 
 <div class="main-layout">
 
-  <!-- Sidebar -->
   <div class="sidebar">
     <ul>
       <li><a class="home" href="/home">Home</a></li>
@@ -145,27 +126,51 @@ html, body {
     </ul>
   </div>
 
-  <!-- Chat UI -->
   <div class="chat-area">
+
     <div id="root">
-      <div class="chat container">
-        <form class="row">
-          <input
-            type="text"
-            name="content"
-            class="ten columns my-input-text"
-            placeholder="Hello! Type a message..."
-            autocomplete="off"
-          >
-          <button type="submit" class="send-message two columns">
-            Send
-          </button>
-        </form>
-      </div>
+      <div class="chat container" id="messages"></div>
     </div>
+
+    <!-- INPUT ALWAYS AT BOTTOM -->
+    <div class="chat-input-bar">
+      <form id="chatForm">
+        <input
+          type="text"
+          name="content"
+          placeholder="Hello! Type a message..."
+          autocomplete="off"
+        />
+        <button type="submit">Send</button>
+      </form>
+    </div>
+
   </div>
 
 </div>
+
+<script>
+
+const form = document.getElementById("chatForm");
+const root = document.getElementById("root");
+
+function scrollToBottom(){
+  root.scrollTop = root.scrollHeight;
+}
+
+form.addEventListener("submit", () => {
+
+  /* wait one frame so message renders */
+  setTimeout(() => {
+    scrollToBottom();
+  }, 50);
+
+});
+
+/* also scroll when page first loads */
+window.addEventListener("load", scrollToBottom);
+
+</script>
 
 </body>
 </html>
