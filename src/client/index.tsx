@@ -104,13 +104,7 @@ function App() {
 					content.value = "";
 				}}
 			>
-				<p></p>
-				<p></p>
-
-				<p></p>
-				<p></p>
-
-				<p></p>
+			<div className="chat-messages">
 				<input
 					type="text"
 					name="content"
@@ -121,6 +115,7 @@ function App() {
 				<button type="submit" className="send-message two columns">
 					Send
 				</button>
+			</div>
 			</form>
 		</div>
 	);
