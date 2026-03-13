@@ -81,8 +81,7 @@ html, body {
 
 /* Chat layout */
 .chat {
-  min-height: 80%;
-  height: 80vh;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -92,6 +91,7 @@ html, body {
 .chat-messages {
   flex: 1 0 auto;
   min-height: 0;
+  height: 80vh;
 }
 
 /* Keep the original chat form visible at the bottom */
@@ -120,12 +120,6 @@ html, body {
 }
 
 .chat input[type="text"] {
-  flex: 1 1 auto;
-  min-width: 0;
-  width: auto;
-  margin-bottom: 0;
-}
-.chat container {
   flex: 1 1 auto;
   min-width: 0;
   width: auto;
