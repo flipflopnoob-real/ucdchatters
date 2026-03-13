@@ -22,6 +22,7 @@ function App() {
 	}else{
 		roomName = param;
 	}
+	Console.log(param);
 	const { room } = roomName;
 	const socket = usePartySocket({
 		party: "chat",
