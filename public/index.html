@@ -14,12 +14,14 @@
 <script src="/dist/index.js" type="module"></script>
 
 <style>
+
 html, body {
   height: 100%;
   margin: 0;
 }
 
 /* Layout */
+
 .main-layout {
   display: flex;
   height: 100vh;
@@ -27,6 +29,7 @@ html, body {
 }
 
 /* Sidebar */
+
 .sidebar {
   width: 20%;
   min-width: 180px;
@@ -62,15 +65,16 @@ html, body {
 }
 
 /* Chat area */
+
 .chat-area {
   width: 80%;
   min-width: 0;
   height: 100vh;
   overflow: hidden;
-  box-sizing: border-box;
 }
 
-/* Single scroll container */
+/* Scroll container */
+
 #root {
   height: 100%;
   overflow-y: auto;
@@ -80,60 +84,63 @@ html, body {
 }
 
 /* Chat layout */
+
 .chat {
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  min-width: 0;
 }
 
-/* Message area above the original form */
+/* Messages area */
+
 .chat-messages {
   flex: 1 0 auto;
   min-height: 0;
+  padding-bottom: 140px; /* space for message bar */
 }
 
-/* Keep the original chat form visible at the bottom */
-.chat form.row {
-  position: sticky;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: nowrap;
-  margin-top: auto;
-  margin-bottom: 0;
-  padding-top: 12px;
-  background: #fff;
-  z-index: 10;
-}
+/* Word wrapping */
 
-/* Wrapping */
 .chat *,
-.chat-area *,
 #root * {
-  box-sizing: border-box;
   min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
 }
 
+/* Original message form pinned to bottom */
+
+.chat form.row {
+  position: sticky;
+  bottom: 0;
+  background: white;
+  padding-top: 12px;
+  padding-bottom: 35px; /* extra whitespace below textbox */
+  border-top: 1px solid #ddd;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Input styling */
+
 .chat input[type="text"] {
   flex: 1 1 auto;
   min-width: 0;
-  width: auto;
   margin-bottom: 0;
 }
 
 .chat button[type="submit"] {
-  flex: 0 0 auto;
-  margin-bottom: 0;
   white-space: nowrap;
+  margin-bottom: 0;
 }
+
 </style>
 </head>
 
 <body>
+
 <div class="main-layout">
 
   <div class="sidebar">
@@ -146,10 +153,13 @@ html, body {
   </div>
 
   <div class="chat-area">
+
     <div id="root">
+
       <div class="chat container">
+
         <div class="chat-messages" id="messages">
-          <!-- Messages render here -->
+          <!-- Messages appear here -->
         </div>
 
         <form class="row">
@@ -160,67 +170,51 @@ html, body {
             placeholder="Hello! Type a message..."
             autocomplete="off"
           >
+
           <button type="submit" class="send-message two columns">
             Send
           </button>
         </form>
+
       </div>
+
     </div>
+
   </div>
 
 </div>
 
 <script>
-(function () {
-  const root = document.getElementById("root");
-  if (!root) return;
 
-  function scrollToBottom() {
-    root.scrollTop = root.scrollHeight;
-  }
+const root = document.getElementById("root");
 
-  function scrollToBottomSoon() {
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        scrollToBottom();
-      });
-    });
-  }
+/* scroll to newest message */
 
-  /* Load homepage at most recent messages */
-  window.addEventListener("load", () => {
-    scrollToBottomSoon();
-    setTimeout(scrollToBottom, 50);
-    setTimeout(scrollToBottom, 200);
-    setTimeout(scrollToBottom, 600);
-  });
+function scrollToBottom(){
+  root.scrollTop = root.scrollHeight;
+}
 
-  document.addEventListener("DOMContentLoaded", () => {
-    scrollToBottomSoon();
-  });
+/* load page at newest messages */
 
-  /* Scroll to newest message after sending */
-  document.addEventListener("submit", function (event) {
-    const form = event.target;
-    if (!(form instanceof HTMLFormElement)) return;
-    if (!root.contains(form)) return;
+window.addEventListener("load", () => {
+  scrollToBottom();
+  setTimeout(scrollToBottom, 200);
+});
 
-    scrollToBottomSoon();
-    setTimeout(scrollToBottom, 50);
-    setTimeout(scrollToBottom, 200);
-    setTimeout(scrollToBottom, 600);
-  }, true);
+/* scroll after sending message */
 
-  /* Also handle async message rendering */
-  const observer = new MutationObserver(() => {
-    scrollToBottomSoon();
-  });
+document.addEventListener("submit", function(event){
 
-  observer.observe(root, {
-    childList: true,
-    subtree: true
-  });
-})();
+  const form = event.target;
+
+  if (!(form instanceof HTMLFormElement)) return;
+  if (!root.contains(form)) return;
+
+  setTimeout(scrollToBottom, 50);
+  setTimeout(scrollToBottom, 200);
+
+});
+
 </script>
 
 </body>
