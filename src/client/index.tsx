@@ -104,6 +104,13 @@ function App() {
 					content.value = "";
 				}}
 			>
+				<p></p>
+				<p></p>
+
+				<p></p>
+				<p></p>
+
+				<p></p>
 				<input
 					type="text"
 					name="content"
