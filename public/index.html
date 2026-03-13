@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 
-<title>Chat!</title>
+<title>Chat</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link rel="stylesheet" href="css/normalize.css" />
-<link rel="stylesheet" href="css/skeleton.css" />
-<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="css/normalize.css">
+<link rel="stylesheet" href="css/skeleton.css">
+<link rel="stylesheet" href="styles.css">
 
-<link rel="icon" type="image/ico" href="favicon.ico" />
+<link rel="icon" type="image/ico" href="favicon.ico">
 <script src="/dist/index.js" type="module"></script>
 
 <style>
@@ -25,7 +25,6 @@ html, body {
 .main-layout {
   display: flex;
   height: 100vh;
-  width: 100%;
 }
 
 /* Sidebar */
@@ -35,8 +34,8 @@ html, body {
   min-width: 180px;
   border-right: 1px solid #ddd;
   padding: 25px;
-  box-sizing: border-box;
   background: #f9f9f9;
+  box-sizing: border-box;
 }
 
 .sidebar ul {
@@ -68,7 +67,6 @@ html, body {
 
 .chat-area {
   width: 80%;
-  min-width: 0;
   height: 100vh;
   overflow: hidden;
 }
@@ -86,17 +84,34 @@ html, body {
 /* Chat layout */
 
 .chat {
-  min-height: 100%;
   display: flex;
   flex-direction: column;
+  min-height: 100%;
 }
 
-/* Messages area */
+/* Messages */
 
 .chat-messages {
-  flex: 1 0 auto;
-  min-height: 0;
-  padding-bottom: 140px; /* space for message bar */
+  flex: 1;
+  padding-bottom: 160px; /* space so last message isn't hidden */
+}
+
+/* Sticky input */
+
+.chat form.row {
+
+  position: sticky;
+  bottom: 0;
+
+  background: white;
+  border-top: 1px solid #ddd;
+
+  padding-top: 12px;
+  padding-bottom: 80px; /* whitespace below textbox */
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 /* Word wrapping */
@@ -108,26 +123,10 @@ html, body {
   word-break: break-word;
 }
 
-/* Original message form pinned to bottom */
-
-.chat form.row {
-  position: sticky;
-  bottom: 0;
-  background: white;
-  padding-top: 12px;
-  padding-bottom: 35px; /* extra whitespace below textbox */
-  border-top: 1px solid #ddd;
-
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-/* Input styling */
+/* Input */
 
 .chat input[type="text"] {
-  flex: 1 1 auto;
-  min-width: 0;
+  flex: 1;
   margin-bottom: 0;
 }
 
@@ -143,44 +142,46 @@ html, body {
 
 <div class="main-layout">
 
-  <div class="sidebar">
-    <ul>
-      <li><a class="home" href="/home">Home</a></li>
-      <li><a href="bored">Bored on Campus</a></li>
-      <li><a href="events">Events</a></li>
-      <li><a href="complain">Complaining</a></li>
-    </ul>
-  </div>
+<div class="sidebar">
+<ul>
+<li><a class="home" href="/home">Home</a></li>
+<li><a href="bored">Bored on Campus</a></li>
+<li><a href="events">Events</a></li>
+<li><a href="complain">Complaining</a></li>
+</ul>
+</div>
 
-  <div class="chat-area">
+<div class="chat-area">
 
-    <div id="root">
+<div id="root">
 
-      <div class="chat container">
+<div class="chat container">
 
-        <div class="chat-messages" id="messages">
-          <!-- Messages appear here -->
-        </div>
+<div class="chat-messages" id="messages">
+<!-- Messages appear here -->
+</div>
 
-        <form class="row">
-          <input
-            type="text"
-            name="content"
-            class="ten columns my-input-text"
-            placeholder="Hello! Type a message..."
-            autocomplete="off"
-          >
+<form class="row">
 
-          <button type="submit" class="send-message two columns">
-            Send
-          </button>
-        </form>
+<input
+type="text"
+name="content"
+class="ten columns my-input-text"
+placeholder="Hello! Type a message..."
+autocomplete="off"
+>
 
-      </div>
+<button type="submit" class="send-message two columns">
+Send
+</button>
 
-    </div>
+</form>
 
-  </div>
+</div>
+
+</div>
+
+</div>
 
 </div>
 
@@ -188,30 +189,28 @@ html, body {
 
 const root = document.getElementById("root");
 
-/* scroll to newest message */
-
 function scrollToBottom(){
-  root.scrollTop = root.scrollHeight;
+root.scrollTop = root.scrollHeight;
 }
 
-/* load page at newest messages */
+/* Load page at newest messages */
 
 window.addEventListener("load", () => {
-  scrollToBottom();
-  setTimeout(scrollToBottom, 200);
+scrollToBottom();
+setTimeout(scrollToBottom, 200);
 });
 
-/* scroll after sending message */
+/* Scroll after sending message */
 
 document.addEventListener("submit", function(event){
 
-  const form = event.target;
+const form = event.target;
 
-  if (!(form instanceof HTMLFormElement)) return;
-  if (!root.contains(form)) return;
+if (!(form instanceof HTMLFormElement)) return;
+if (!root.contains(form)) return;
 
-  setTimeout(scrollToBottom, 50);
-  setTimeout(scrollToBottom, 200);
+setTimeout(scrollToBottom, 50);
+setTimeout(scrollToBottom, 200);
 
 });
 
