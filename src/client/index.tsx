@@ -16,7 +16,6 @@ function App() {
 	const [name] = useState(names[Math.floor(Math.random() * names.length)]); //Picks a random name from our list of names in the shared .ts file
 	const [messages, setMessages] = useState<ChatMessage[]>([]);
 	let param = useParams();
-	param.postID = "home";
 	const { room } = param;
 	const socket = usePartySocket({
 		party: "chat",
