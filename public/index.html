@@ -1,220 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Chat!</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="utf-8">
 
-  <link rel="stylesheet" href="css/normalize.css" />
-  <link rel="stylesheet" href="css/skeleton.css" />
-  <link rel="stylesheet" href="styles.css" />
+<title>Chat!</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="icon" type="image/ico" href="favicon.ico" />
-  <script src="/dist/index.js" type="module"></script>
+<link rel="stylesheet" href="css/normalize.css">
+<link rel="stylesheet" href="css/skeleton.css">
+<link rel="stylesheet" href="styles.css">
 
-  <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-    }
+<link rel="icon" type="image/ico" href="favicon.ico">
+<script src="/dist/index.js" type="module"></script>
 
-    * {
-      box-sizing: border-box;
-    }
+<style>
 
-    .main-layout {
-      display: flex;
-      height: 100vh;
-      width: 100%;
-      overflow: hidden;
-    }
+html, body {
+  height: 100%;
+  margin: 0;
+}
 
-    .sidebar {
-      width: 20%;
-      min-width: 180px;
-      border-right: 1px solid #ddd;
-      padding: 25px;
-      background: #f9f9f9;
-    }
+* {
+  box-sizing: border-box;
+}
 
-    .sidebar ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
+/* Layout */
 
-    .sidebar li {
-      margin: 18px 0;
-    }
+.main-layout {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
 
-    .sidebar a {
-      text-decoration: none;
-      font-size: 1.25em;
-      font-weight: 600;
-      color: #333;
-    }
+/* Sidebar */
 
-    .sidebar a.home {
-      font-size: 1.4em;
-      font-weight: 700;
-    }
+.sidebar {
+  width: 20%;
+  min-width: 180px;
+  border-right: 1px solid #ddd;
+  padding: 25px;
+  background: #f9f9f9;
+}
 
-    .sidebar a:hover {
-      text-decoration: underline;
-    }
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
-    .chat-area {
-      width: 80%;
-      min-width: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      background: #fff;
-      overflow: hidden;
-    }
+.sidebar li {
+  margin: 18px 0;
+}
 
-    /* Only messages scroll here */
-    .chat-scroll {
-      flex: 1 1 auto;
-      min-height: 0;
-      overflow-y: auto;
-      overflow-x: hidden;
-      padding: 20px;
-    }
+.sidebar a {
+  text-decoration: none;
+  font-size: 1.25em;
+  font-weight: 600;
+  color: #333;
+}
 
-    #root {
-      min-width: 0;
-    }
+.sidebar a.home {
+  font-size: 1.4em;
+  font-weight: 700;
+}
 
-    .chat {
-      min-width: 0;
-    }
+.sidebar a:hover {
+  text-decoration: underline;
+}
 
-    .chat *,
-    #root * {
-      min-width: 0;
-      overflow-wrap: anywhere;
-      word-break: break-word;
-    }
+/* Chat area */
 
-    /* Real fixed bottom area inside the page layout */
-    .chat-footer {
-      flex: 0 0 auto;
-      background: #fff;
-      border-top: 1px solid #ddd;
-      padding: 12px 20px 28px 20px; /* extra white space below the textbox */
-    }
+.chat-area {
+  width: 80%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  overflow: hidden;
+}
 
-    .chat-footer form.row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: nowrap;
-      margin: 0;
-      width: 100%;
-    }
+/* Messages scroll area */
 
-    .chat-footer input[type="text"] {
-      flex: 1 1 auto;
-      min-width: 0;
-      width: auto;
-      margin-bottom: 0;
-    }
+.chat-scroll {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px;
+}
 
-    .chat-footer button[type="submit"] {
-      flex: 0 0 auto;
-      white-space: nowrap;
-      margin-bottom: 0;
-    }
-  </style>
+#root {
+  min-width: 0;
+}
+
+.chat *,
+#root * {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* Bottom chat bar */
+
+.chat-footer {
+  flex: 0 0 auto;
+  background: white;
+  border-top: 1px solid #ddd;
+
+  padding: 12px 20px;
+
+  /* this forces whitespace to extend fully to bottom */
+  padding-bottom: 40px;
+}
+
+/* Form */
+
+.chat-footer form.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+}
+
+.chat-footer input[type="text"] {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.chat-footer button {
+  white-space: nowrap;
+  margin-bottom: 0;
+}
+
+</style>
 </head>
+
 <body>
-  <div class="main-layout">
-    <div class="sidebar">
-      <ul>
-        <li><a class="home" href="/home">Home</a></li>
-        <li><a href="bored">Bored on Campus</a></li>
-        <li><a href="events">Events</a></li>
-        <li><a href="complain">Complaining</a></li>
-      </ul>
-    </div>
 
-    <div class="chat-area">
-      <div class="chat-scroll" id="chatScroll">
-        <div id="root">
-          <div class="chat container" id="messages">
-            <!-- Messages render here -->
-          </div>
-        </div>
-      </div>
+<div class="main-layout">
 
-      <div class="chat-footer">
-        <form class="row">
-          <input
-            type="text"
-            name="content"
-            class="ten columns my-input-text"
-            placeholder="Hello! Type a message..."
-            autocomplete="off"
-          />
-          <button type="submit" class="send-message two columns">
-            Send
-          </button>
-        </form>
-      </div>
-    </div>
-  </div>
+<div class="sidebar">
+<ul>
+<li><a class="home" href="/home">Home</a></li>
+<li><a href="bored">Bored on Campus</a></li>
+<li><a href="events">Events</a></li>
+<li><a href="complain">Complaining</a></li>
+</ul>
+</div>
 
-  <script>
-    (function () {
-      const chatScroll = document.getElementById("chatScroll");
-      if (!chatScroll) return;
+<div class="chat-area">
 
-      function scrollToBottom() {
-        chatScroll.scrollTop = chatScroll.scrollHeight;
-      }
+<div class="chat-scroll" id="chatScroll">
 
-      function scrollToBottomSoon() {
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            scrollToBottom();
-          });
-        });
-      }
+<div id="root">
 
-      /* Load homepage at the newest messages */
-      window.addEventListener("load", () => {
-        scrollToBottomSoon();
-        setTimeout(scrollToBottom, 50);
-        setTimeout(scrollToBottom, 200);
-        setTimeout(scrollToBottom, 600);
-      });
+<div class="chat container" id="messages">
+<!-- Messages appear here -->
+</div>
 
-      document.addEventListener("DOMContentLoaded", () => {
-        scrollToBottomSoon();
-      });
+</div>
 
-      /* Scroll to newest message after sending */
-      document.addEventListener("submit", function (event) {
-        const form = event.target;
-        if (!(form instanceof HTMLFormElement)) return;
+</div>
 
-        scrollToBottomSoon();
-        setTimeout(scrollToBottom, 50);
-        setTimeout(scrollToBottom, 200);
-        setTimeout(scrollToBottom, 600);
-      }, true);
+<div class="chat-footer">
 
-      /* Also catch async message rendering */
-      const observer = new MutationObserver(() => {
-        scrollToBottomSoon();
-      });
+<form class="row">
 
-      observer.observe(document.getElementById("root"), {
-        childList: true,
-        subtree: true
-      });
-    })();
-  </script>
+<input
+type="text"
+name="content"
+class="ten columns my-input-text"
+placeholder="Hello! Type a message..."
+autocomplete="off"
+>
+
+<button type="submit" class="send-message two columns">
+Send
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const chatScroll = document.getElementById("chatScroll");
+
+function scrollToBottom(){
+chatScroll.scrollTop = chatScroll.scrollHeight;
+}
+
+/* Load newest messages */
+
+window.addEventListener("load", () => {
+scrollToBottom();
+setTimeout(scrollToBottom, 200);
+});
+
+/* Scroll after sending */
+
+document.addEventListener("submit", function(event){
+
+const form = event.target;
+
+if (!(form instanceof HTMLFormElement)) return;
+
+setTimeout(scrollToBottom, 50);
+setTimeout(scrollToBottom, 200);
+
+});
+
+</script>
+
 </body>
 </html>
