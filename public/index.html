@@ -14,21 +14,22 @@
 <script src="/dist/index.js" type="module"></script>
 
 <style>
-
 html, body {
   height: 100%;
   margin: 0;
 }
 
-/* Layout */
+* {
+  box-sizing: border-box;
+}
 
+/* Layout */
 .main-layout {
   display: flex;
   height: 100vh;
 }
 
 /* Sidebar */
-
 .sidebar {
   width: 20%;
   min-width: 180px;
@@ -64,60 +65,57 @@ html, body {
 }
 
 /* Chat area */
-
 .chat-area {
   width: 80%;
   height: 100vh;
   overflow: hidden;
+  position: relative;
+  background: white;
 }
 
 /* Scroll container */
-
 #root {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   padding: 20px;
-  padding-bottom: 140px; /* reserve room for input area + whitespace below it */
+  padding-bottom: 170px; /* room for textbox + whitespace below it */
   box-sizing: border-box;
 }
 
 /* Chat layout */
-
 .chat {
   display: flex;
   flex-direction: column;
   min-height: 100%;
-  position: relative;
 }
 
 /* Messages */
-
 .chat-messages {
   flex: 1;
-  padding-bottom: 40px;
+  padding-bottom: 20px;
 }
 
-/* Input fixed to bottom of chat area, with whitespace below textbox */
-
-.chat form.row {
+/* Fixed bottom bar */
+.chat-input-wrap {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-
   background: white;
   border-top: 1px solid #ddd;
+  padding: 12px 20px 80px 20px; /* whitespace from under textbox to bottom */
+  z-index: 20;
+}
 
-  padding: 12px 0 80px 0; /* whitespace extends from below textbox to page bottom */
-
+.chat form.row {
   display: flex;
   align-items: center;
   gap: 12px;
+  margin: 0;
 }
 
 /* Word wrapping */
-
 .chat *,
 #root * {
   min-width: 0;
@@ -126,7 +124,6 @@ html, body {
 }
 
 /* Input */
-
 .chat input[type="text"] {
   flex: 1;
   margin-bottom: 0;
@@ -136,7 +133,6 @@ html, body {
   white-space: nowrap;
   margin-bottom: 0;
 }
-
 </style>
 </head>
 
@@ -144,78 +140,67 @@ html, body {
 
 <div class="main-layout">
 
-<div class="sidebar">
-<ul>
-<li><a class="home" href="/home">Home</a></li>
-<li><a href="bored">Bored on Campus</a></li>
-<li><a href="events">Events</a></li>
-<li><a href="complain">Complaining</a></li>
-</ul>
-</div>
+  <div class="sidebar">
+    <ul>
+      <li><a class="home" href="/home">Home</a></li>
+      <li><a href="bored">Bored on Campus</a></li>
+      <li><a href="events">Events</a></li>
+      <li><a href="complain">Complaining</a></li>
+    </ul>
+  </div>
 
-<div class="chat-area">
+  <div class="chat-area">
 
-<div id="root">
+    <div id="root">
+      <div class="chat container">
+        <div class="chat-messages" id="messages">
+          <!-- Messages appear here -->
+        </div>
+      </div>
+    </div>
 
-<div class="chat container">
+    <div class="chat-input-wrap">
+      <form class="row">
+        <input
+          type="text"
+          name="content"
+          class="ten columns my-input-text"
+          placeholder="Hello! Type a message..."
+          autocomplete="off"
+        >
 
-<div class="chat-messages" id="messages">
-<!-- Messages appear here -->
-</div>
+        <button type="submit" class="send-message two columns">
+          Send
+        </button>
+      </form>
+    </div>
 
-<form class="row">
-
-<input
-type="text"
-name="content"
-class="ten columns my-input-text"
-placeholder="Hello! Type a message..."
-autocomplete="off"
->
-
-<button type="submit" class="send-message two columns">
-Send
-</button>
-
-</form>
-
-</div>
-
-</div>
-
-</div>
+  </div>
 
 </div>
 
 <script>
-
 const root = document.getElementById("root");
 
-function scrollToBottom(){
+function scrollToBottom() {
   root.scrollTop = root.scrollHeight;
 }
 
 /* Load page at newest messages */
-
 window.addEventListener("load", () => {
   scrollToBottom();
   setTimeout(scrollToBottom, 200);
 });
 
 /* Scroll after sending message */
-
-document.addEventListener("submit", function(event){
-
+document.addEventListener("submit", function(event) {
   const form = event.target;
 
   if (!(form instanceof HTMLFormElement)) return;
-  if (!root.contains(form)) return;
 
   setTimeout(scrollToBottom, 50);
   setTimeout(scrollToBottom, 200);
-
 });
-
 </script>
 
 </body>
