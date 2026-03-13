@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 
-<title>Chat!</title>
+<title>Chat</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link rel="stylesheet" href="css/normalize.css">
@@ -20,17 +20,11 @@ html, body {
   margin: 0;
 }
 
-* {
-  box-sizing: border-box;
-}
-
 /* Layout */
 
 .main-layout {
   display: flex;
   height: 100vh;
-  width: 100%;
-  overflow: hidden;
 }
 
 /* Sidebar */
@@ -41,12 +35,12 @@ html, body {
   border-right: 1px solid #ddd;
   padding: 25px;
   background: #f9f9f9;
+  box-sizing: border-box;
 }
 
 .sidebar ul {
   list-style: none;
   padding: 0;
-  margin: 0;
 }
 
 .sidebar li {
@@ -74,24 +68,55 @@ html, body {
 .chat-area {
   width: 80%;
   height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background: #fff;
   overflow: hidden;
 }
 
-/* Messages scroll area */
+/* Scroll container */
 
-.chat-scroll {
-  flex: 1 1 auto;
+#root {
+  height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   padding: 20px;
+  padding-bottom: 140px; /* reserve room for input area + whitespace below it */
+  box-sizing: border-box;
 }
 
-#root {
-  min-width: 0;
+/* Chat layout */
+
+.chat {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  position: relative;
 }
+
+/* Messages */
+
+.chat-messages {
+  flex: 1;
+  padding-bottom: 40px;
+}
+
+/* Input fixed to bottom of chat area, with whitespace below textbox */
+
+.chat form.row {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background: white;
+  border-top: 1px solid #ddd;
+
+  padding: 12px 0 80px 0; /* whitespace extends from below textbox to page bottom */
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Word wrapping */
 
 .chat *,
 #root * {
@@ -100,34 +125,14 @@ html, body {
   word-break: break-word;
 }
 
-/* Bottom chat bar */
+/* Input */
 
-.chat-footer {
-  flex: 0 0 auto;
-  background: white;
-  border-top: 1px solid #ddd;
-
-  padding: 12px 20px;
-
-  /* this forces whitespace to extend fully to bottom */
-  padding-bottom: 40px;
-}
-
-/* Form */
-
-.chat-footer form.row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 0;
-}
-
-.chat-footer input[type="text"] {
+.chat input[type="text"] {
   flex: 1;
   margin-bottom: 0;
 }
 
-.chat-footer button {
+.chat button[type="submit"] {
   white-space: nowrap;
   margin-bottom: 0;
 }
@@ -150,19 +155,13 @@ html, body {
 
 <div class="chat-area">
 
-<div class="chat-scroll" id="chatScroll">
-
 <div id="root">
 
-<div class="chat container" id="messages">
+<div class="chat container">
+
+<div class="chat-messages" id="messages">
 <!-- Messages appear here -->
 </div>
-
-</div>
-
-</div>
-
-<div class="chat-footer">
 
 <form class="row">
 
@@ -186,31 +185,34 @@ Send
 
 </div>
 
+</div>
+
 <script>
 
-const chatScroll = document.getElementById("chatScroll");
+const root = document.getElementById("root");
 
 function scrollToBottom(){
-chatScroll.scrollTop = chatScroll.scrollHeight;
+  root.scrollTop = root.scrollHeight;
 }
 
-/* Load newest messages */
+/* Load page at newest messages */
 
 window.addEventListener("load", () => {
-scrollToBottom();
-setTimeout(scrollToBottom, 200);
+  scrollToBottom();
+  setTimeout(scrollToBottom, 200);
 });
 
-/* Scroll after sending */
+/* Scroll after sending message */
 
 document.addEventListener("submit", function(event){
 
-const form = event.target;
+  const form = event.target;
 
-if (!(form instanceof HTMLFormElement)) return;
+  if (!(form instanceof HTMLFormElement)) return;
+  if (!root.contains(form)) return;
 
-setTimeout(scrollToBottom, 50);
-setTimeout(scrollToBottom, 200);
+  setTimeout(scrollToBottom, 50);
+  setTimeout(scrollToBottom, 200);
 
 });
 
