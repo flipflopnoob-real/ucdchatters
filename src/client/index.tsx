@@ -6,17 +6,21 @@ import {
 	Routes,
 	Route,
 	Navigate,
-	useParams,
+	useParams, //general import to extract from url
 } from "react-router";
 import { nanoid } from "nanoid";
 
 import { names, type ChatMessage, type Message } from "../shared";
 
 function App() {
-	const [name] = useState(names[Math.floor(Math.random() * names.length)]);
+	const [name] = useState(names[Math.floor(Math.random() * names.length)]); //Picks a random name from our list of names in the shared .ts file
 	const [messages, setMessages] = useState<ChatMessage[]>([]);
-	const { room } = useParams();
-
+	const param = useParams();
+	if(param != "home") {
+		var { room } = "home";
+	}else{
+		var { room } = useParams();
+	}
 	const socket = usePartySocket({
 		party: "chat",
 		room,
