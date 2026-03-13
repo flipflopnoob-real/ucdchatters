@@ -1,220 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
+  <meta charset="utf-8" />
+  <title>Chat!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>Chat</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/normalize.css" />
+  <link rel="stylesheet" href="css/skeleton.css" />
+  <link rel="stylesheet" href="styles.css" />
 
-<link rel="stylesheet" href="css/normalize.css">
-<link rel="stylesheet" href="css/skeleton.css">
-<link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/ico" href="favicon.ico" />
+  <script src="/dist/index.js" type="module"></script>
 
-<link rel="icon" type="image/ico" href="favicon.ico">
-<script src="/dist/index.js" type="module"></script>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
 
-<style>
+    * {
+      box-sizing: border-box;
+    }
 
-html, body {
-  height: 100%;
-  margin: 0;
-}
+    .main-layout {
+      display: flex;
+      height: 100vh;
+      width: 100%;
+      overflow: hidden;
+    }
 
-/* Layout */
+    .sidebar {
+      width: 20%;
+      min-width: 180px;
+      border-right: 1px solid #ddd;
+      padding: 25px;
+      background: #f9f9f9;
+    }
 
-.main-layout {
-  display: flex;
-  height: 100vh;
-}
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
 
-/* Sidebar */
+    .sidebar li {
+      margin: 18px 0;
+    }
 
-.sidebar {
-  width: 20%;
-  min-width: 180px;
-  border-right: 1px solid #ddd;
-  padding: 25px;
-  background: #f9f9f9;
-  box-sizing: border-box;
-}
+    .sidebar a {
+      text-decoration: none;
+      font-size: 1.25em;
+      font-weight: 600;
+      color: #333;
+    }
 
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-}
+    .sidebar a.home {
+      font-size: 1.4em;
+      font-weight: 700;
+    }
 
-.sidebar li {
-  margin: 18px 0;
-}
+    .sidebar a:hover {
+      text-decoration: underline;
+    }
 
-.sidebar a {
-  text-decoration: none;
-  font-size: 1.25em;
-  font-weight: 600;
-  color: #333;
-}
+    .chat-area {
+      width: 80%;
+      min-width: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      overflow: hidden;
+    }
 
-.sidebar a.home {
-  font-size: 1.4em;
-  font-weight: 700;
-}
+    /* Only messages scroll here */
+    .chat-scroll {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 20px;
+    }
 
-.sidebar a:hover {
-  text-decoration: underline;
-}
+    #root {
+      min-width: 0;
+    }
 
-/* Chat area */
+    .chat {
+      min-width: 0;
+    }
 
-.chat-area {
-  width: 80%;
-  height: 100vh;
-  overflow: hidden;
-}
+    .chat *,
+    #root * {
+      min-width: 0;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
 
-/* Scroll container */
+    /* Real fixed bottom area inside the page layout */
+    .chat-footer {
+      flex: 0 0 auto;
+      background: #fff;
+      border-top: 1px solid #ddd;
+      padding: 12px 20px 28px 20px; /* extra white space below the textbox */
+    }
 
-#root {
-  height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 20px;
-  box-sizing: border-box;
-}
+    .chat-footer form.row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: nowrap;
+      margin: 0;
+      width: 100%;
+    }
 
-/* Chat layout */
+    .chat-footer input[type="text"] {
+      flex: 1 1 auto;
+      min-width: 0;
+      width: auto;
+      margin-bottom: 0;
+    }
 
-.chat {
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
-}
-
-/* Messages */
-
-.chat-messages {
-  flex: 1;
-  padding-bottom: 160px; /* space so last message isn't hidden */
-}
-
-/* Sticky input */
-
-.chat form.row {
-
-  position: sticky;
-  bottom: 0;
-
-  background: white;
-  border-top: 1px solid #ddd;
-
-  padding-top: 12px;
-  padding-bottom: 80px; /* whitespace below textbox */
-
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-/* Word wrapping */
-
-.chat *,
-#root * {
-  min-width: 0;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-/* Input */
-
-.chat input[type="text"] {
-  flex: 1;
-  margin-bottom: 0;
-}
-
-.chat button[type="submit"] {
-  white-space: nowrap;
-  margin-bottom: 0;
-}
-
-</style>
+    .chat-footer button[type="submit"] {
+      flex: 0 0 auto;
+      white-space: nowrap;
+      margin-bottom: 0;
+    }
+  </style>
 </head>
-
 <body>
+  <div class="main-layout">
+    <div class="sidebar">
+      <ul>
+        <li><a class="home" href="/home">Home</a></li>
+        <li><a href="bored">Bored on Campus</a></li>
+        <li><a href="events">Events</a></li>
+        <li><a href="complain">Complaining</a></li>
+      </ul>
+    </div>
 
-<div class="main-layout">
+    <div class="chat-area">
+      <div class="chat-scroll" id="chatScroll">
+        <div id="root">
+          <div class="chat container" id="messages">
+            <!-- Messages render here -->
+          </div>
+        </div>
+      </div>
 
-<div class="sidebar">
-<ul>
-<li><a class="home" href="/home">Home</a></li>
-<li><a href="bored">Bored on Campus</a></li>
-<li><a href="events">Events</a></li>
-<li><a href="complain">Complaining</a></li>
-</ul>
-</div>
+      <div class="chat-footer">
+        <form class="row">
+          <input
+            type="text"
+            name="content"
+            class="ten columns my-input-text"
+            placeholder="Hello! Type a message..."
+            autocomplete="off"
+          />
+          <button type="submit" class="send-message two columns">
+            Send
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
 
-<div class="chat-area">
+  <script>
+    (function () {
+      const chatScroll = document.getElementById("chatScroll");
+      if (!chatScroll) return;
 
-<div id="root">
+      function scrollToBottom() {
+        chatScroll.scrollTop = chatScroll.scrollHeight;
+      }
 
-<div class="chat container">
+      function scrollToBottomSoon() {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            scrollToBottom();
+          });
+        });
+      }
 
-<div class="chat-messages" id="messages">
-<!-- Messages appear here -->
-</div>
+      /* Load homepage at the newest messages */
+      window.addEventListener("load", () => {
+        scrollToBottomSoon();
+        setTimeout(scrollToBottom, 50);
+        setTimeout(scrollToBottom, 200);
+        setTimeout(scrollToBottom, 600);
+      });
 
-<form class="row">
+      document.addEventListener("DOMContentLoaded", () => {
+        scrollToBottomSoon();
+      });
 
-<input
-type="text"
-name="content"
-class="ten columns my-input-text"
-placeholder="Hello! Type a message..."
-autocomplete="off"
->
+      /* Scroll to newest message after sending */
+      document.addEventListener("submit", function (event) {
+        const form = event.target;
+        if (!(form instanceof HTMLFormElement)) return;
 
-<button type="submit" class="send-message two columns">
-Send
-</button>
+        scrollToBottomSoon();
+        setTimeout(scrollToBottom, 50);
+        setTimeout(scrollToBottom, 200);
+        setTimeout(scrollToBottom, 600);
+      }, true);
 
-</form>
+      /* Also catch async message rendering */
+      const observer = new MutationObserver(() => {
+        scrollToBottomSoon();
+      });
 
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<script>
-
-const root = document.getElementById("root");
-
-function scrollToBottom(){
-root.scrollTop = root.scrollHeight;
-}
-
-/* Load page at newest messages */
-
-window.addEventListener("load", () => {
-scrollToBottom();
-setTimeout(scrollToBottom, 200);
-});
-
-/* Scroll after sending message */
-
-document.addEventListener("submit", function(event){
-
-const form = event.target;
-
-if (!(form instanceof HTMLFormElement)) return;
-if (!root.contains(form)) return;
-
-setTimeout(scrollToBottom, 50);
-setTimeout(scrollToBottom, 200);
-
-});
-
-</script>
-
+      observer.observe(document.getElementById("root"), {
+        childList: true,
+        subtree: true
+      });
+    })();
+  </script>
 </body>
 </html>
