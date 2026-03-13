@@ -1,48 +1,131 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<!-- Basic Page Needs
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-		<meta charset="utf-8" />
-		<title>Chat!</title>
-		<meta name="description" content="" />
-		<meta name="author" content="" />
+<head>
+<meta charset="utf-8">
 
-		<!-- Mobile Specific Metas
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chat!</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<!-- FONT
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<link rel="stylesheet" href="Chat!_files/normalize.css">
+<link rel="stylesheet" href="Chat!_files/skeleton.css">
+<link rel="stylesheet" href="Chat!_files/styles.css">
 
-		<!-- CSS
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-		<link rel="stylesheet" href="css/normalize.css" />
-		<link rel="stylesheet" href="css/skeleton.css" />
-		<link rel="stylesheet" href="styles.css" />
+<link rel="icon" type="image/ico" href="https://ucdchatters.kevinjopeck.workers.dev/favicon.ico">
 
-		<!-- Favicon
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-		<link rel="icon" type="image/ico" href="favicon.ico" />
-		<script src="/dist/index.js" type="module"></script>
-	</head>
-	<body>
-		<!-- Primary Page Layout
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-		<div class="container" style="width: 95%; height: 100%">
-			<div class="row" style="height: 100%">
-				<div class="one-third column" style="margin-top: 25%">
-					<h4><b>Chat</b>, powered by Durable Objects</h4>
-					<p>
-						This chat room is hosted in a single Durable Object, running in one
-						process in one machine in one location, very close to the users.
-					</p>
-				</div>
-				<div class="two-thirds column" id="root"></div>
-			</div>
-		</div>
+<script src="Chat!_files/index.js" type="module"></script>
 
-		<!-- End Document
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-	</body>
+<style>
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+/* Layout */
+
+.main-layout {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+/* Sidebar */
+
+.sidebar {
+  width: 20%;
+  min-width: 180px;
+  border-right: 1px solid #ddd;
+  padding: 25px;
+  box-sizing: border-box;
+  background: #f9f9f9;
+}
+
+/* Navigation list */
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin: 18px 0;
+}
+
+/* Links */
+
+.sidebar a {
+  text-decoration: none;
+  font-size: 1.25em;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Home slightly larger */
+
+.sidebar a.home {
+  font-size: 1.4em;
+  font-weight: 700;
+}
+
+.sidebar a:hover {
+  text-decoration: underline;
+}
+
+/* Chat area */
+
+.chat-area {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.chat-area #root {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="main-layout">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <ul>
+      <li><a class="home" href="index.html">Home</a></li>
+      <li><a href="rooms.html">Rooms</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+  </div>
+
+  <!-- Chat UI -->
+  <div class="chat-area">
+    <div id="root">
+      <div class="chat container">
+        <form class="row">
+          <input
+            type="text"
+            name="content"
+            class="ten columns my-input-text"
+            placeholder="Hello! Type a message..."
+            autocomplete="off"
+          >
+          <button type="submit" class="send-message two columns">
+            Send
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
 </html>
